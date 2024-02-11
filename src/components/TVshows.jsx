@@ -3,8 +3,7 @@ import { useLoaderData } from 'react-router-dom'
 import Carousel from './Carousel';
 import { useQuery } from '@tanstack/react-query';
 import { queryclient } from '../utils/queryClient'
-import getPhones from '../utils/getPhones';
-import queryCache from '../utils/queryCache';
+import getPhones from '../utils/getPhones.js';
 import Loader from './Loader';
 // import Carousel from './Carousel';
 export const loader = async ()=>{

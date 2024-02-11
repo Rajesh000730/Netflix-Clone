@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "./Authprovider";
+import { useAuth } from "./Authprovider.js";
 import { ProtectedRoute } from "./ProtectedRoute";
 import TVshows, {loader as TVshowLoader} from "./TVshows";
 import Movies,  {loader as MovieLoader} from "./Movies";
@@ -8,9 +8,7 @@ import Original_audio from "./Original_audio";
 import Home from "./Home";
 import Latest from "./Latest";
 import Login from './Login'
-import getPhones from "../utils/getPhones";
-import searchPhones from "../utils/searchProducts";
-import { lazy } from "react";
+import getPhones from "../utils/getPhones.js";
 const Routes = () => {
   const { token } = useAuth();
 
