@@ -36,3 +36,14 @@
 body{
     background-color: black;
 }
+
+.Login{
+    background: url('./assets/netflix_bg.jpg');
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+
+.LoginInput:focus{
+    outline: none;
+    border-color: aliceblue;
+}

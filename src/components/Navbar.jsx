@@ -12,7 +12,7 @@ function Navbar() {
     }
   return (
     <div className='flex items-center justify-center w-[100%] sticky top-0'>
-    <div className='flex items-center px-[4%] justify-between  h-[64px] bg-black  z-50 w-[100%] max-w-[3000px]' >
+    <div className='flex items-center px-[4%] justify-between  h-[64px] bg-black  z-100 w-[100%] max-w-[3000px]' >
     <div className='flex m-0 text-white box-border relative'>
     <img src={logo} className=' mr-6 '/>
     <div className='flex'>
