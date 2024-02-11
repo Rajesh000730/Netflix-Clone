@@ -33,9 +33,11 @@ function TVshows() {
     }
     console.log(data)
   return (
-    <div  className=' mt-[20px]'>
+    <div className='w-[100%] flex items-center justify-center'>
+    <div  className=' mt-[20px]  w-[100%] max-w-[3000px]'>
      <Carousel data={data}/>
       <Carousel data={data}/>
+    </div>
     </div>
   )
 }

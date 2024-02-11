@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "./Authprovider.js";
+import { useAuth } from "./Authprovider.jsx";
 import { ProtectedRoute } from "./ProtectedRoute";
 import TVshows, {loader as TVshowLoader} from "./TVshows";
 import Movies,  {loader as MovieLoader} from "./Movies";

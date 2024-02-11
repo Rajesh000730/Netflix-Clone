@@ -10,6 +10,7 @@
     background-color: black;
     animation-name: searchinput;
     animation-duration: 0.5s;
+    /* animation-direction: reverse; */
     
 
 }
