@@ -1,4 +1,4 @@
-import instance from "../utils/axiosConf.js";
+import {instance2} from "../utils/axiosConf.js";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const AuthContext = createContext();
@@ -6,24 +6,20 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem("token"));
-// const [token, setToken_] = useState("rajesh")
-
-  // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
   };
-
+  const scrollY = window.scrollY
+  
   useEffect(() => {
     if (token) {
-      instance.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem('token',token);
-    } else {
-      delete instance.defaults.headers.common["Authorization"];
+    } else {  
       localStorage.removeItem('token')
     }
+   
   }, [token]);
 
-  // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
       token,

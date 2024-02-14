@@ -1,8 +1,11 @@
 import React from 'react'
+import Loader from './Loader'
 
 function Original_audio() {
   return (
-    <div>Original-audio</div>
+    <div>
+      <Loader/>
+    </div>
   )
 }
 

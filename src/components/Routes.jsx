@@ -8,10 +8,11 @@ import Original_audio from "./Original_audio";
 import Home ,{loader as Homeloader} from "./Home";
 import Latest from "./Latest";
 import Login from './Login'
-
+import { instance2 } from "../utils/axiosConf.js";
 import LoginDescription from "./LoginDescription.jsx";
 import LoginBox from "./LoginBox.jsx";
 import SignUpBox from "./SignUpBox.jsx";
+import ErrorBoundary from "./ErrorBoundary.jsx";
 const Routes = () => {
   const { token, setToken } = useAuth();
 
@@ -36,36 +37,60 @@ const Routes = () => {
       children: [
         {
           path: "/",
-          element: <Home />,
-          loader: (Homeloader)
+          loader:((token)=>Homeloader)
+          ,
+          lazy:()=>{
+            return {Component : Home}
+            
+          },
+          errorElement: <ErrorBoundary/>,
         },
         {
           path:"/shows",
-          element: <TVshows/>,
-          loader: (TVshowLoader)
+          loader: ((token)=>TVshowLoader),
+          lazy: ()=>{
+            return {Component:TVshows}
+          },
+          errorElement: <ErrorBoundary/>,
         },
         {
             path:"/browse",
-          element: <Movies/>,
-          loader: (MovieLoader)
+          loader: ((token)=>MovieLoader),
+          lazy : ()=>{
+            return {Component:Movies}
+          },
+          errorElement: <ErrorBoundary/>,
     
 
         },
         {
             path:"/latest",
             element:<Latest/>,
+            errorElement: <ErrorBoundary/>,
 
         },
         {
             path:"/my-list",
             element:<Mylist/>,
+            errorElement: <ErrorBoundary/>,
 
         },
         {
             path:"/original-audio",
             element:<Original_audio/>,
+            errorElement: <ErrorBoundary/>,
 
-        }
+        },
+        {
+          path:"/logout",
+          loader: ()=>{
+            localStorage.removeItem("token")
+            setToken("")
+            return redirect("/")
+            
+          }
+
+          }
       ],
     },
   ];
@@ -74,22 +99,44 @@ const Routes = () => {
   const routesForNotAuthenticatedOnly = [
     {
       path: "/",
-      element: <Login/>,
+      lazy: ()=>{
+        return {Component: Login}
+      },
       children:[
         {path: '/',
         element: <LoginDescription/>
         },
         {
           path: '/login',
-          element: <LoginBox/>,
           action: async ({request})=>{
             let formdata =  await request.formData();
-            // console.log(formdata)
-            localStorage.setItem("token", "token")
-            setToken("token")
-            return redirect('/')
+            const email = formdata.get("email")
+            const password = formdata.get("password")
+            try{
+              const data = await instance2.post('/api/v1/auth/authenticate', JSON.stringify({email:email, password:password}),{
+                headers:{
+                  'Content-Type':'application/json'
+                }
+              })
+              if(data.data.token){
+                localStorage.setItem("token", data.data.token)
+                setToken(data.data.token)
+                return redirect('/')
+              }
+              else{
+                throw new Error(data.data.error)
+              }
+            }
+            catch(e){
+              return e.message
+            }
             
-          }
+            
+          },
+          lazy: ()=>{
+            return {Component:LoginBox}
+          },
+          errorElement: <ErrorBoundary/>,
           
         },
         {
@@ -98,15 +145,35 @@ const Routes = () => {
           action: async ({request})=>{
             let formdata =  await request.formData();
             // console.log(formdata)
-            let email = formdata.get("email")
             let password = formdata.get("password")
             let confirmpassword = formdata.get("confirmpassword")
+            const body  =  {
+              email : formdata.get("email"),
+              password: formdata.get("password")
+            }
             console.log(password, confirmpassword)
             if(password!=confirmpassword){
-              return {error:"password does not match"}
+              return "password does not match"
             }
-            return redirect("/login")
-          }
+            try{
+              const resp = await instance2.post('/api/v1/auth/createuser',JSON.stringify(body),{
+                headers:{
+                  "Content-Type":"application/json"
+                }
+              })
+              if(resp.data.message){
+                return redirect('/login')
+              }
+              else{
+                throw new Error(resp.data.error)
+              }
+            }
+            catch(e){
+                return e.message
+            }
+
+          },
+          errorElement: <ErrorBoundary/>,
         }
       ]
     },

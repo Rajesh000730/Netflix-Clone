@@ -9,7 +9,7 @@ function LoginDescription() {
               <p className='text-[24px] font-400'>Watch anywhere. Cancel anytime</p>
               <p className='text-[24px] font-400'>Ready to watch? Enter your email to create or restart your membership.</p>
               <div >
-                <Form className='flex items-center gap-2' action='/signup' method='post'>
+                <Form className='flex items-center gap-2' action='/signup' >
                 <LoginInput type="email" placeholder="Email Address" name="email"/>
                 <GetStarted/>
                 </Form>
