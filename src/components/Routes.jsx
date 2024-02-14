@@ -99,9 +99,7 @@ const Routes = () => {
   const routesForNotAuthenticatedOnly = [
     {
       path: "/",
-      lazy: ()=>{
-        return {Component: Login}
-      },
+      element: <Login/>,
       children:[
         {path: '/',
         element: <LoginDescription/>
