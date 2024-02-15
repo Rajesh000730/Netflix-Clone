@@ -3,7 +3,7 @@ import LoaderBox from './LoaderBox'
 
 function Loader() {
   return (
-    <div>
+    <div className=''>
     <LoaderBox/>
     <LoaderBox/>
     <LoaderBox/>
